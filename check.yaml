@@ -1,0 +1,59 @@
+- Hello!
+
+- message:  "Choose one:"
+  name: score
+  type: SingleChoice
+  options:
+    - label: 'List rows with score:0' 
+      value: 1
+    - label:  'List rows with score:1'
+      value: 2
+    - label: 'List All'
+      value: 3
+  replyMessage: Okay! You chose {score}.
+
+
+- message:  'Choose multiple fields you like to see:'
+  name: columns
+  type: MultipleChoice
+  maxOptions: 9
+  options:
+    - name
+    - roll_no
+    - question_no
+    - question_text
+    - answer_image
+    - answer_text
+    - answer_expected
+    - score
+    - match_percentage
+  replyMessage: Okay! You choose {columns}.
+
+- message:  'Would you like to edit scores?'
+  name: edit
+  type: SingleChoice
+  options:
+    - yes
+    - no
+- when: "{{ edit == 'yes' }}"
+  message: 'Enter the ID number for editing:'
+  name: editScoreID
+  type: Number 
+
+- when: "{{ editScoreID in validIDs }}"
+  message: Okay! You chose {editScoreID}. We changed the score.
+
+- when: "{{ editScoreID not in validIDs }}"
+  message: Please enter a valid ID.'
+
+
+
+- message: What you want to do?
+  type: SingleChoice
+  options:
+    - label: Restart
+      next: score
+    - label: Quit
+
+- message: "Bye! :("
+  exit: true
